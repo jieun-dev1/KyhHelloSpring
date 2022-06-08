@@ -3,17 +3,30 @@ package hello.hellospring.Service;
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public class MemberService {
-//    private final MemberRepository memberRepository = new MemoryMemberRepository();
     private final MemberRepository memberRepository;
+//    private MemberRepository memberRepository;
 
+
+    //수정자 주입: 한번 세팅 되면 잘 안바꾸기 때문에 자주 쓰이지 x
+    //누구나 수정 가능하게 열려있다는 점. 개발은 최대한 변경 가능점 줄이는게 중요
+    //생성시점에 설정하고, 변경하지 못하도록 하는 게 낫다.
+//    @Autowired
+//    public void setMemberRepository(MemberRepository memberRepository) {
+//        this.memberRepository = memberRepository;
+//    }
     //memberRepository를 외부에서 넣어줌. 의존성 주입 Di.
+    @Autowired
     public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    this.memberRepository = memberRepository;
     }
 
     /**

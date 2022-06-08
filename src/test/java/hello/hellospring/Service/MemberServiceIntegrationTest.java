@@ -1,33 +1,38 @@
 package hello.hellospring.Service;
 
 import hello.hellospring.domain.Member;
+import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest
+@Transactional
+public class MemberServiceIntegrationTest {
 
-class MemberServiceTest {
-
+    //테스트 코드만들 때는 편하게 필드 주입 써도 좋다. 테스트를 다른 곳에서 쓰는 게 아니니까.
+    @Autowired
     MemberService memberService;
-    //MemberService 와 테스트케이스의 객체가 다른 상황. static 이어서 문제가 없지만, static 이 아니라면 문제가 생김. 같은 걸로 테스트하는 게 맞음.
-    MemoryMemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
-    @BeforeEach
-    public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
-    }
+//    @BeforeEach
+//    public void beforeEach() {
+//        memberRepository = new MemoryMemberRepository();
+//        memberService = new MemberService(memberRepository);
+//    }
 
-    @AfterEach
-    public void afterEach() {
-        memberRepository.clearStore(); //돌 때마다 끝나고 나면 db 값을 날려줌.
-    }
+//    @AfterEach
+//    public void afterEach() {
+//        memberRepository.clearStore();
+//    }
 
     @Test
     void 회원가입() {
@@ -66,12 +71,4 @@ class MemberServiceTest {
 //        }
     }
 
-
-    @Test
-    void findMembers() {
-    }
-
-    @Test
-    void findOne() {
-    }
 }
